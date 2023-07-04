@@ -1,7 +1,8 @@
 # Simple Script to start a c++ Project
 
 TODO
-- Add simple Cmake instead of make 
+- Add simple Cmake 
+- Improve templates
 
 ## Motivation
 
