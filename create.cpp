@@ -1,45 +1,61 @@
-
+#include <_ctype.h>
 #include <iostream>
-#include <filesystem>
+#include <fstream>
+#include <string>
 
+#include "file_templates.h"
+
+// Filesystem is c++17
+#include <filesystem>
+namespace fs  = std::filesystem;
+
+
+std::string create_file(std::string filename, std::string template_string);
 
 
 int main (int argc, char *argv[]) {
-  // First make the directory; 
-  // - ProjectName/
-  
-  // Create the files
-  // - ~/ProjectName/MakeFile
-  // - ~/ProjectName/projectName.cpp
-  // - ~/ProjectName/testFile.txt
-  // - ~/ProjectName/README.md
+  // getting the name of the project
+  if (argc < 2){
+    std::cout << "Usage: create [ProjectName] \n";
+    exit(1);
+  }
+  std::string projectName = argv[1];
 
-  
-  // fill the files with templated info; 
-  
-  /* MakeFile 
-   * 
-   *
-   *
-   * */
+  if (!isupper(projectName[0])){
+    projectName[0] = toupper(projectName[0]);
+  }
 
-  /* projectName.cpp 
-   * #include <iostream>
-   * class 
-   * int main(int argc, char* argv[]){
-   *  
-   *
-   * return 0;
-   * }
-   *
-   * */
+  char ans;
+  std::cout << "Do you want to create " << projectName << " project ? [y/n]" << std::endl;
+  std::cin >> ans;
+  if (ans == 'n') {
+    std::cout << "Aborted" << std::endl;
+    exit(1);
+  }
 
-  /* README.md 
-   * ProjectName: 
-   * Author: Carlos Tapia
-   * StartDate:
-   * Goal: 
-   * Description: 
-   * */
+  // make the directory; 
+  fs::create_directory(projectName);
+
+  auto path = fs::current_path() += ("/" + projectName);
+  fs::current_path(path);
+
+  create_file("MakeFile", MISC_MAKEFILE);
+  create_file("testFile.txt", TEXT_TEST);
+  create_file("main.cpp", CPP_PROJECT);
+  create_file("README.md", MARKDOWN_README);
+  
   return 0;
 }
+
+std::string create_file(std::string filename, std::string template_string){
+  std::fstream file {filename, file.out};
+
+  if (!file.is_open()) return 0;
+
+  std::cout << "creating " << filename << std::endl;
+  file << template_string;
+
+  file.close();
+  return filename;
+}
+
