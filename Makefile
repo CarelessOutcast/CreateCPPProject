@@ -9,5 +9,5 @@ file_templates.o : file_templates.cpp
 	g++-13 -c file_templates.cpp
 
 clean :
-	rm *.o create
+	rm *.o
 
