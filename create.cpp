@@ -39,7 +39,7 @@ int main (int argc, char *argv[]) {
   auto path = fs::current_path() += ("/" + projectName);
   fs::current_path(path);
 
-  create_file("MakeFile", MISC_MAKEFILE);
+  create_file("Makefile", MISC_MAKEFILE);
   create_file("testFile.txt", TEXT_TEST);
   create_file("main.cpp", CPP_PROJECT);
   create_file("README.md", MARKDOWN_README);
